@@ -1,0 +1,16 @@
+import User from '../database/models/Users';
+
+import { ILoginModel } from '../interfaces/login.interface';
+import { IUser } from '../interfaces/user.interface';
+
+export default class LoginRepository implements ILoginModel {
+  constructor(private model = User) {
+    this.model = model;
+  }
+
+  login = async (email:string): Promise<IUser> => {
+    const user = await this.model.findOne({ where: { email }, raw: true });
+
+    return user as IUser;
+  };
+}
